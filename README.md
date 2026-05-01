@@ -1,5 +1,17 @@
-# Vue 3 + Vite
+# Domain Driven Design
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Stores
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+We use these to delegate the API information received to the presentation layer.
+
+
+## Domain Model
+Here is where we put the entities that correspond to a specific bounded context
+
+
+## Assemblers and APIs
+
+The APIs retrieve the information from the backend created.
+
+Later, the assemblers retrieve each resource, convert it to an entity, and then using that conversion they convert the response to an
+entity. Finally, this function is used in the load() function of the Store.
