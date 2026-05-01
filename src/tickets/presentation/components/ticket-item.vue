@@ -1,32 +1,155 @@
 <script setup>
-import { toRefs } from "vue";
-import {Ticket} from "../../domain/model/ticket.entity.js";
+import { ref, onMounted } from 'vue';
+import Layout from "../../../shared/presentation/components/layout.vue";
+import { TicketApi } from "../../infrastructure/ticket-api.js";
 
-const props = defineProps({ ticket: { type: Object, required: true } });
-const { ticket } = toRefs(props);
+// PrimeVue
+import Card from 'primevue/card';
+import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import Tag from 'primevue/tag';
 
+const api = new TicketApi();
 
+const tickets = ref([]);
+
+const form = ref({
+  row_str: '',
+  seat_number: '',
+  price: ''
+});
+
+// Cargar tickets
+const loadTickets = async () => {
+  try {
+    const res = await api.getTickets();
+    tickets.value = res.data.datos || res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Guardar ticket
+const saveTicket = async () => {
+  try {
+    await api.createTicket(form.value);
+    await loadTickets();
+
+    form.value = {
+      row_str: '',
+      seat_number: '',
+      price: ''
+    };
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+onMounted(loadTickets);
+
+// Estado con color
+const getSeverity = (status) => {
+  if (status === 'SOLD') return 'danger';
+  if (status === 'AVAILABLE') return 'success';
+  if (status === 'RESERVED') return 'warning';
+  return 'info';
+};
 </script>
 
 <template>
+  <Layout>
+    <div class="dashboard">
 
+      <!-- FORM CARD -->
+      <Card class="form-card">
+        <template #title>
+          🎟️ Registrar Ticket
+        </template>
 
-  <pv-card>
-    <template #content>
-      <h3> ticket-id: {{ ticket.id_ticket }}</h3>
-      <h3> ticket-event-id: {{ ticket.id_event }}</h3>
-      <h3> ticket-customer-id: {{ ticket.id_customer  }}</h3>
-      <h3> ticket-payment-id: {{ ticket.id_payment }}</h3>
-      <h3> ticket-row-str : {{ ticket.row_str }}</h3>
-      <h3> ticket-seat-number: {{ ticket.seat_number }}</h3>
-      <h3> ticket-price: {{ ticket.price }}</h3>
-      <h3> ticket-status: {{ ticket.status }}</h3>
-      <h3> ticket-locked-until: {{ ticket.locked_until }}</h3>
-    </template>
-  </pv-card>
+        <template #content>
+          <div class="form-grid">
 
+            <InputText v-model="form.row_str" placeholder="Fila (A, B...)" />
+            <InputText v-model="form.seat_number" placeholder="Asiento" />
+            <InputText v-model="form.price" placeholder="Precio" />
+
+            <Button
+                label="Guardar"
+                icon="pi pi-save"
+                class="p-button-success"
+                @click="saveTicket"
+            />
+
+          </div>
+        </template>
+      </Card>
+
+      <!-- TABLE CARD -->
+      <Card>
+        <template #title>
+          📋 Tickets
+        </template>
+
+        <template #content>
+
+          <DataTable
+              :value="tickets"
+              paginator
+              :rows="6"
+              responsiveLayout="scroll"
+              stripedRows
+          >
+
+            <Column field="id_ticket" header="ID" />
+            <Column field="row_str" header="Fila" />
+            <Column field="seat_number" header="Asiento" />
+            <Column field="price" header="Precio" />
+
+            <!-- Estado con color -->
+            <Column header="Estado">
+              <template #body="slotProps">
+                <Tag
+                    :value="slotProps.data.status"
+                    :severity="getSeverity(slotProps.data.status)"
+                />
+              </template>
+            </Column>
+
+          </DataTable>
+
+        </template>
+      </Card>
+
+    </div>
+  </Layout>
 </template>
 
 <style scoped>
+.dashboard {
+  display: grid;
+  gap: 20px;
+}
 
+/* CARD FORM */
+.form-card {
+  max-width: 500px;
+}
+
+/* GRID FORM */
+.form-grid {
+  display: grid;
+  gap: 12px;
+}
+
+/* MEJORA VISUAL GLOBAL */
+:deep(.p-card) {
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+:deep(.p-datatable) {
+  border-radius: 12px;
+}
 </style>
