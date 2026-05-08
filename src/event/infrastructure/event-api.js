@@ -1,24 +1,33 @@
 import axios from 'axios';
+import {BaseApi} from "../../shared/infrastructure/base-api.js";
+import {BaseEndpoint} from "../../shared/infrastructure/base-endpoint.js";
 
 const http = axios.create({
     baseURL: 'http://localhost:3000'
 });
 
-export class EventApi {
+const eventEndpointsPath = import.meta.env.VITE_EVENT_ENDPOINT;
 
+#eventEndpoints;
+
+export class EventApi extends BaseApi {
+    constructor(){
+        super();
+        this.#eventEndpoints = new BaseEndpoint(this, eventEndpointsPath);
+    }
     getEvents() {
-        return http.get('/events');
+        return this.#eventEndpoints.getAll();
     }
 
     createEvent(event) {
-        return http.post('/events', event);
+        return this.#eventEndpoints.create(event);
     }
 
     updateEvent(id, event) {
-        return http.put(`/events/${id}`, event);
+        return this.#eventEndpoints.update(id, event);
     }
 
     deleteEvent(id) {
-        return http.delete(`/events/${id}`);
+        return this.#eventEndpoints.delete(id);
     }
 }

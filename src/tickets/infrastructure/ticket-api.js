@@ -1,19 +1,30 @@
 import axios from 'axios';
+import {BaseApi} from "../../shared/infrastructure/base-api.js";
+import {BaseEndpoint} from "../../shared/infrastructure/base-endpoint.js";
 
-const baseApi = import.meta.env.VITE_GO_TICKET_API_URL;
 
 const http = axios.create({
     baseURL: baseApi
 });
 
-export class TicketApi {
+const ticketEndpointsPath = import.meta.env.VITE_TICKET_ENDPOINT;
+
+#ticketsEndpoint;
+
+
+export class TicketApi extends BaseApi {
+    constructor() {
+        super();
+        this.#ticketsEndpoint = new BaseEndpoint(this, ticketEndpointsPath);
+    }
+
 
     getTickets() {
-        return http.get('/tickets');
+        return this.#ticketsEndpoint.getAll();
     }
 
     createTicket(data) {
-        return http.post('/tickets', data);
+        return this.#ticketsEndpoint.create(data);
     }
 
 }
