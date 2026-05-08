@@ -1,64 +1,32 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const email = ref('');
+const email    = ref('');
 const password = ref('');
-const role = ref('cliente');
-
-const loading = ref(false);
-const error = ref(null);
+const role     = ref('cliente');
+const loading  = ref(false);
+const error    = ref(null);
 
 const handleLogin = () => {
   loading.value = true;
-  error.value = null;
+  error.value   = null;
 
   setTimeout(() => {
-
-    //LOGIN ADMIN
-    if (
-        role.value === 'admin' &&
-        email.value === 'admin@test.com' &&
-        password.value === '1234'
-    ) {
-      localStorage.setItem('token', 'admin-token');
+    if (role.value === 'admin' && email.value === 'admin@test.com' && password.value === '1234') {
       localStorage.setItem('role', 'admin');
-      router.push('/admin'); // cambia a tu ruta real
-    }
-
-    //LOGIN CLIENTE
-    else if (
-        role.value === 'cliente' &&
-        email.value === 'cliente@test.com' &&
-        password.value === '1234'
-    ) {
-      localStorage.setItem('token', 'cliente-token');
+      router.push('/events');
+    } else if (role.value === 'cliente' && email.value === 'cliente@test.com' && password.value === '1234') {
       localStorage.setItem('role', 'cliente');
-      router.push('/events/categories');
-    }
-
-    else {
+      router.push('/events');
+    } else {
       error.value = 'Credenciales incorrectas';
     }
-
     loading.value = false;
   }, 1000);
 };
-
-onMounted(() => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    const roleSaved = localStorage.getItem('role');
-
-    if (roleSaved === 'admin') {
-      router.push('/admin');
-    } else {
-      router.push('/tickets');
-    }
-  }
-});
 </script>
 <template>
   <div class="login-wrapper">

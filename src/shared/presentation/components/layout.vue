@@ -40,7 +40,7 @@ const menuItems = computed(() => {
     {
       label: 'Eventos',
       icon: 'pi pi-calendar',
-      route: '/events/categories'
+      route: '/events'
     },
     {
       label: 'Tickets',
