@@ -1,5 +1,5 @@
 import { ref, onMounted } from 'vue';
-import { EventApi } from '../infrastructure/services/event-api.js';
+import { EventApi } from '../infrastructure/event-api.js';
 import {Event} from "../domain/model/event.entity.js";
 
 const api = new EventApi();
