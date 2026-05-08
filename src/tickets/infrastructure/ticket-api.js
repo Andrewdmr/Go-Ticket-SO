@@ -12,6 +12,10 @@ export class TicketApi {
         return http.get('/tickets');
     }
 
+    getEventTickets(eventId) {
+        return http.get(`/events/${eventId}/tickets`);
+    }
+
     createTicket(data) {
         return http.post('/tickets', data);
     }
