@@ -8,9 +8,9 @@ const http = axios.create({
 
 const eventEndpointsPath = import.meta.env.VITE_EVENT_ENDPOINT;
 
-#eventEndpoints;
-
 export class EventApi extends BaseApi {
+    #eventEndpoints;
+
     constructor(){
         super();
         this.#eventEndpoints = new BaseEndpoint(this, eventEndpointsPath);

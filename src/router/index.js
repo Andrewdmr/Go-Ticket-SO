@@ -6,11 +6,14 @@ import TicketItem from "../tickets/presentation/components/ticket-item.vue";
 
 import AdminPage from "../auth/presentation/components/admin-page.vue";
 import EventPage from "../event/presentation/components/event-page.vue";
+import EventCategoriesPage from "../event/presentation/components/event-categories-page.vue";
 const routes = [
     { path: '/', component: LoginForm },
     { path: '/tickets', component: TicketItem, meta: { role: 'cliente' }},
     { path: '/admin', component: AdminPage, meta: { role: 'admin' }},
-    { path: '/events', component: EventPage, meta: { role: 'admin' }}
+    { path: '/events', component: EventPage, meta: { role: 'admin' }},
+    { path: '/events/categories', component: EventCategoriesPage, meta: { role: 'cliente' }},
+
 ];
 
 const router = createRouter({

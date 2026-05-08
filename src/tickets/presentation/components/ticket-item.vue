@@ -23,15 +23,7 @@ const form = ref({
   price: ''
 });
 
-// Cargar tickets
-const loadTickets = async () => {
-  try {
-    const res = await api.getTickets();
-    tickets.value = res.data.datos || res.data;
-  } catch (err) {
-    console.error(err);
-  }
-};
+
 
 // Guardar ticket
 const saveTicket = async () => {
@@ -49,7 +41,7 @@ const saveTicket = async () => {
   }
 };
 
-onMounted(loadTickets);
+onMounted(ticketStore.loadTickets());
 
 // Estado con color
 const getSeverity = (status) => {

@@ -38,6 +38,11 @@ const menuItems = computed(() => {
   // 👤 CLIENTE
   return [
     {
+      label: 'Eventos',
+      icon: 'pi pi-calendar',
+      route: '/events/categories'
+    },
+    {
       label: 'Tickets',
       icon: 'pi pi-ticket',
       route: '/tickets'

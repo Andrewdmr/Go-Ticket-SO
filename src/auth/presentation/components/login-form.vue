@@ -36,7 +36,7 @@ const handleLogin = () => {
     ) {
       localStorage.setItem('token', 'cliente-token');
       localStorage.setItem('role', 'cliente');
-      router.push('/tickets');
+      router.push('/events/categories');
     }
 
     else {
