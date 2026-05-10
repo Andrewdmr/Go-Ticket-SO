@@ -1,24 +1,18 @@
 import axios from 'axios';
 
+const baseApi = import.meta.env.VITE_GO_TICKET_API_URL;
+
 const http = axios.create({
-    baseURL: 'http://localhost:3000'
+    baseURL: baseApi
 });
 
 export class EventApi {
-
     getEvents() {
         return http.get('/events');
     }
 
+    // Este endpoint usará la lógica de creación + generación de tickets
     createEvent(event) {
-        return http.post('/events', event);
-    }
-
-    updateEvent(id, event) {
-        return http.put(`/events/${id}`, event);
-    }
-
-    deleteEvent(id) {
-        return http.delete(`/events/${id}`);
+        return http.post('/admin/events-with-tickets', event);
     }
 }

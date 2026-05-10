@@ -25,7 +25,7 @@ const handleLogin = () => {
     ) {
       localStorage.setItem('token', 'admin-token');
       localStorage.setItem('role', 'admin');
-      router.push('/admin'); // cambia a tu ruta real
+      router.push('/admin');
     }
 
     //LOGIN CLIENTE
@@ -36,7 +36,7 @@ const handleLogin = () => {
     ) {
       localStorage.setItem('token', 'cliente-token');
       localStorage.setItem('role', 'cliente');
-      router.push('/tickets');
+      router.push('/');
     }
 
     else {
@@ -55,13 +55,42 @@ onMounted(() => {
     if (roleSaved === 'admin') {
       router.push('/admin');
     } else {
-      router.push('/tickets');
+      router.push('/');
     }
   }
 });
 </script>
 <template>
   <div class="login-wrapper">
+    <div class="login-hero">
+      <div class="hero-content">
+        <div class="hero-logo">GT</div>
+
+        <h1>GoTicket</h1>
+
+        <p>
+          Compra entradas para conciertos, festivales y eventos
+          en segundos.
+        </p>
+
+        <div class="hero-features">
+          <div>
+            <i class="pi pi-ticket"></i>
+            Compra rápida
+          </div>
+
+          <div>
+            <i class="pi pi-shield"></i>
+            Pago seguro
+          </div>
+
+          <div>
+            <i class="pi pi-bolt"></i>
+            Acceso inmediato
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="login-card">
       <h1 class="title">GoTicket</h1>
       <p class="subtitle">
@@ -105,111 +134,157 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
 .login-wrapper {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #111827;
-  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  background: var(--gt-dark);
 }
 
-/* CARD */
+@media (max-width: 900px) {
+  .login-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
 .login-card {
-  background: rgba(255,255,255,0.95);
-  padding: 40px;
-  border-radius: 20px;
-  width: 340px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
-  text-align: center;
-  color: #111827;
-  border: 1px solid #e5e7eb;
-}
-
-/* TITULOS */
-.title {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.subtitle {
-  margin-bottom: 25px;
-  color: #6b7280;
-}
-
-/* INPUTS */
-.input-group {
-  text-align: left;
-  margin-bottom: 18px;
-}
-
-label {
-  font-size: 14px;
-  margin-bottom: 6px;
-  display: block;
-  color: #374151;
-}
-
-input {
-  width: 100%;
-  padding: 13px;
-  border-radius: 10px;
-  border: 1px solid #d1d5db;
-  outline: none;
-  background: #f9fafb;
-  color: #111827;
-  transition: 0.3s;
-}
-
-input:focus {
-  border-color: #6366f1;
   background: white;
-  box-shadow: 0 0 0 4px rgba(99,102,241,0.15);
-}
 
-/* BOTON */
-.btn {
-  width: 100%;
-  padding: 13px;
-  margin-top: 10px;
-  border-radius: 10px;
-  border: none;
-  background: #08060d;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  opacity: 0.95;
-}
-
-/* SELECTOR */
-.role-selector {
   display: flex;
-  margin-bottom: 20px;
-  background: #f3f4f6;
-  border-radius: 10px;
-  overflow: hidden;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 60px;
+
+  max-width: 500px;
+  width: 100%;
+  margin: auto;
+}
+
+.title { font-size: 32px; font-weight: 800; margin-bottom: 5px; color: var(--gt-text-main); }
+.subtitle { margin-bottom: 30px; color: var(--gt-text-muted); }
+
+.role-selector {
+  display: flex; margin-bottom: 25px; background: var(--gt-light);
+  border-radius: 8px; padding: 4px; border: 1px solid #E5E7EB;
 }
 
 .role-selector button {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  background: transparent;
-  color: #6b7280;
-  cursor: pointer;
-  transition: 0.3s;
+  flex: 1; padding: 10px; border: none; background: transparent;
+  color: var(--gt-text-muted); cursor: pointer; transition: 0.3s; border-radius: 6px; font-weight: 600;
 }
 
 .role-selector button.active {
+  background: var(--gt-white); color: var(--gt-red);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.input-group { text-align: left; margin-bottom: 20px; }
+label { font-size: 14px; margin-bottom: 8px; display: block; color: var(--gt-text-main); font-weight: 600;}
+input {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid #cbd5e1;
+  color: #111827;
   background: white;
-  color: #4f46e5;
+
+  font-size: 15px;
+
+  transition: 0.25s;
+}
+
+input:hover {
+  border-color: #94a3b8;
+}
+
+input::placeholder {
+  color: #94a3b8;
+}
+
+input:focus {
+  border-color: var(--gt-red);
+  box-shadow: 0 0 0 4px rgba(225,29,72,0.12);
+}
+
+.btn {
+  width: 100%; padding: 14px; margin-top: 15px; border-radius: 8px; border: none;
+  background: var(--gt-red); color: white; font-weight: 700; cursor: pointer;
+  transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+}
+.btn:hover { background: var(--gt-red-hover); transform: translateY(-2px); }
+.error { color: var(--gt-red); margin-top: 15px; font-size: 14px; font-weight: 600; }
+
+.login-hero {
+  background:
+      linear-gradient(
+          135deg,
+          rgba(15,23,42,0.95),
+          rgba(30,41,59,0.92)
+      ),
+      url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1600');
+
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 60px;
+}
+
+.hero-content {
+  max-width: 500px;
+  color: white;
+}
+
+.hero-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 22px;
+  background: var(--gt-red);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 2rem;
+  font-weight: 900;
+
+  margin-bottom: 30px;
+}
+
+.hero-content h1 {
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: #cbd5e1;
+}
+
+.hero-features {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.hero-features div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
   font-weight: 600;
+}
+
+.hero-features i {
+  color: var(--gt-yellow);
+  font-size: 1.2rem;
 }
 </style>
